@@ -42,11 +42,11 @@ Route::resource('principal','PrincipalController');
 Route::resource('almacen/categoria','CategoriaController');
 Route::resource('almacen/articulo','ArticuloController');
 
-Route::resource('venta/cliente','ClienteController');
+Route::resource('ventas/cliente','ClienteController');
 
 
-Route::get('venta/consultarReniec','ClienteController@buscarDni')->name('consultar.reniec');
-Route::get('venta/consultarSunat','ClienteController@buscarRuc')->name('consultar.sunat');
+Route::get('ventas/consultarReniec','ClienteController@buscarDni')->name('consultar.reniec');
+Route::get('ventas/consultarSunat','ClienteController@buscarRuc')->name('consultar.sunat');
 Route::get('compra/consultarReniec','ProveedorController@buscarDni')->name('consultar1.reniec');
 Route::get('compra/consultarSunat','ProveedorController@buscarRuc')->name('consultar1.sunat');
 
