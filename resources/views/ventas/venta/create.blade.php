@@ -32,6 +32,7 @@
 						<select type="text" name="tipo_comprobante" class="form-control" >
 							<option value="Boleta">Boleta</option>
 							<option value="Factura">Factura</option>
+							<option value="Ticket">Ticket</option>
 						</select>
 					</div>
 				</div>
@@ -57,7 +58,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="form-group">
                                 <label>Articulo</label>
-                                <select name="idarticulo" class="form-control selectpicker" id="idarticulo" data-live-search="true"/>
+                                <select name="idarticulo" class="form-control selectpicker" id="idarticulo" data-live-search="true">
                                     @foreach($articulo as articulo)
                                     <option value="{{$articulo->idarticulo}}_{{$articulo->stock}}_{{$articulo->precio_promedio}}_{{$articulo->articulo}}"> </option>
                                     @endforeach
@@ -68,7 +69,7 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							<div class="form-group">
 								<label for="cantidad">Cantidad </label>
-								<input type="number" name="pcantidad" class="form-control" placeholder="Ingrese Cantidad.." />
+								<input type="number" name="pcantidad" id="pcantidad" class="form-control" placeholder="Ingrese Cantidad.." />
 							</div>
 						</div>
 						
@@ -82,24 +83,24 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							<div class="form-group">
 								<label for="precio_venta">Precio Venta </label>
-								<input type="number" disabled name="pprecio_venta" class="form-control" placeholder="Ingrese el precio venta.." />
+								<input type="number" disabled name="pprecio_venta" id="pprecio_venta" class="form-control" placeholder="P.venta.." />
 							</div>
 						</div>
 						
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							<div class="form-group">
 								<label for="descuento">Descuento </label>
-								<input type="number" name="pdescuento" class="form-control" placeholder="Descuento.." />
+								<input type="number" name="pdescuento" id="pdescuento" class="form-control" placeholder="Descuento.." />
 							</div>			
 						</div>
 						
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-							<div class="btn btn-primary">
-								<button type="button">Agregar</button>
-							</div>			
-						</div>						
-					</div>
-				</div> 
+						<div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
+                            <div class="form-group">
+                                  <button class="btn btn-primary" type="button" id="bt_add">Agregar</button>
+                            </div>
+                        </div>				
+					
+				
 				
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -116,26 +117,36 @@
 									<th></th>
 									<th></th>
 									<th></th>
-									<th><h4 id="total">S/.0.00</h4> <input type="hidden" name="total_venta id="total_venta"></th>
+									<th><h4 id="total">S/.0.00 </h4> <input type="hidden" name="total_venta" id="total_venta"></th>
 								</tfoot>
-						</div>	
+								<tbody>             
+                                </tbody>
+                                </table>    
+                           </div>
+                       </div>
+                   </div>
+               </div>							
 
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="form-group">
-								<button class="btn btn-primary" type="submit">Guardar</button>
-								<input type='reset' class="btn btn-danger" value='Cancelar' onclick="location.href = '{{ route('venta.index')}}'" />
-							</div>
-						</div>						
-					<input type="hidden" name="_token" value="{{csrf_token()}}" />
-            </div>
-		</div>
-        </form>          
+						<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">         
+                    		<div class="form-group">
+                           		<button class="btn btn-primary" type="submit">Guardar</button>
+                           		<button class="btn btn-danger" type="reset">Cancelar</button>
+                   			</div>        
+                		</div>	
+						</div>
+
+				<div>
+   					<input type="hidden" name="_token" value="{{csrf_token()}}" />
+				</div>					
+    </form>          
 		
 	@push('scripts')
 	<script>
 		$(document).ready(function(){
-			$('#bt_add').click(function(){agregar();});
-		});
+                        $('#bt_add').click(function(){
+                         agregar();
+                         });
+                    });
 		
 		var cont=0;
 		total=0;
