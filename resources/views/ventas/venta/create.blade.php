@@ -60,7 +60,7 @@
                                 <label>Articulo</label>
                                 <select name="idarticulo" class="form-control selectpicker" id="idarticulo" data-live-search="true">
                                     @foreach($articulos as articulo)
-                                    <option value="{{$articulo->idarticulo}}"> </option>
+                                    	<option value="$articulo->idarticulo"> </option>
                                     @endforeach
 								</select>
                             </div>
