@@ -128,6 +128,8 @@ class ClienteController extends Controller
 
     }
 
+    // INTEGRACION DE UN WEB API DE LA SUNAT
+
     function buscarRuc(Request $request)
     {
         $ruc =$request->get('ruc');

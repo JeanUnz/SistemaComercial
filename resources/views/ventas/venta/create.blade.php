@@ -30,6 +30,7 @@
                     </div>
                 </div>
 
+				<!--mUESTRA UN MENU CON OPCIONES DE LOS TIPOS DE COMPROBANTES  -->
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 					<div class="form-group">
 						<label>Tipo Comprobante </label>
@@ -105,7 +106,7 @@
                         </div>				
 					
 				
-				
+				<!-- SE MUESTRA UN PANEL CON OPCIONES DONDE SE ALOJARÁN LOS DATOS GUARDADOS -->
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 								<thead style="background-color:#A9D0F5">
@@ -129,8 +130,10 @@
                            </div>
                        </div>
                    </div>
-               </div>							
+               </div>					
 
+
+					<!-- SE REALIZA LA CREACION DE LOS BOTONES DE GUARDAR Y CANCELAR -->
 						<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">         
                     		<div class="form-group">
                            		<button class="btn btn-primary" type="submit">Guardar</button>
@@ -152,6 +155,8 @@
                          });
                     });
 		
+
+					// INGRESO DE LAS VARIABLES A UTILIZAR EN LA FUNCION 
 		var cont=0;
 		total=0;
 		subtotal=[];
@@ -191,8 +196,9 @@
 					evaluar();
 					$('#detalles').append(fila);
 				}
+				// ALERTA DEL ERROR QUE PUEDA COMETER EL USUARIO
 				else{
-					alert('La Cantidad a vender supera el stock');
+					alert('La Cantidad a vender supera el stock'); 
 				}
 			}
 			else{

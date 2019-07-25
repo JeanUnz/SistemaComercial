@@ -14,7 +14,7 @@ class Venta extends Model
 
     //campos que resiviran un valor para guardarse en la base de datos 4-36 6:51
     protected $fillable =[
-    	'idclienter',
+    	'idcliente',
     	'tipo_comprobante',
     	'serie_comprobante',
         'num_comprobante',
