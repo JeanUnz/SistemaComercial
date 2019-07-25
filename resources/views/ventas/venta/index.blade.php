@@ -29,10 +29,10 @@
                         <th>Opciones</th>
                     </tr>
                 </thead>
-                @foreach($venta as $venta)
+                @foreach($ventas as $venta)
                 <tr>
-                    <td>{{$venta->fecha_hora}}</td>
-                    <td>{{$venta->nombre}}</td>
+                    <td>{{$venta->fecha_hora}}</td>  
+                    <td>{{$venta->nombre}}</td>                                     
                     <td>{{$venta->tipo_comprobante.': '.$venta->serie_comprobante. '-'.$venta->num_comprobante}}</td>
                     <td>{{$venta->impuesto}}</td>
                     <td>{{$venta->total_venta}}</td>
@@ -57,9 +57,7 @@
                 @endforeach
             </table>
         </div>
-        {{$venta->render()}}
-        <!--el metodo render nos va a permitir paginar.-->
-		<!--10:29 7-->
+
     </div>
 </div>
 @endsection

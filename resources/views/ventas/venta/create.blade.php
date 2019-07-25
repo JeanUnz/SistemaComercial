@@ -19,12 +19,16 @@
               
         <form action="{{route('venta.store')}}" method="post" autocomplete="off">
 			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<div class="form-group">
-						<label for="nombre">Cliente </label>
-						<input type="text" name="nombre" class="form-control" placeholder="Nombre.." />
-					</div>
-				</div>
+			<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="form-group">
+                     <label for="nombre">Cliente</label>
+                        <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true">
+                          @foreach($personas as $persona)
+                            <option value="{{$persona->idpersona}}">{{$persona->nombre}}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                </div>
 
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 					<div class="form-group">
@@ -76,18 +80,18 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							<div class="form-group">
 								<label for="stock">Stock </label>
-								<input type="number" disabled name="pstock" class="form-control" placeholder="Stock.." />
+								<input type="number" disabled name="pstock" id="pstock"  class="form-control" placeholder="Stock.." />
 							</div>
 						</div>  	
 						
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 							<div class="form-group">
 								<label for="precio_venta">Precio Venta </label>
 								<input type="number" disabled name="pprecio_venta" id="pprecio_venta" class="form-control" placeholder="P.venta.." />
 							</div>
 						</div>
 						
-						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 							<div class="form-group">
 								<label for="descuento">Descuento </label>
 								<input type="number" name="pdescuento" id="pdescuento" class="form-control" placeholder="Descuento.." />
@@ -152,19 +156,20 @@
 		total=0;
 		subtotal=[];
 		$("#guardar").hide();
-		$("#idarticulo").change(mostrarValores);
+		$("#pidarticulo").change(mostrarValores);
 		
 		function mostrarValores(){
 			datosArticulo=document.getElementById('pidarticulo').value.split('_');
-			$("#precio_venta").val(datosArticulo[2]);
-			$("pstock").val(datosArticulo[1]);
+			$("#pprecio_venta").val(datosArticulo[2]);
+			$("#pstock").val(datosArticulo[1]);
 		}
 		
 		function agregar(){
 			datosArticulo=document.getElementById('pidarticulo').value.split('_');
-			
+			console.log(datosArticulo);
+
 			idarticulo=datosArticulo[0];
-			articulo=$("pidarticulo option:selected").text();
+			articulo=$("#pidarticulo option:selected").text();
 			cantidad=$("#pcantidad").val();
 			
 			descuento=$("#pdescuento").val();
@@ -176,8 +181,10 @@
 					subtotal[cont]=(cantidad*precio_venta-descuento);
 					total=total+subtotal[cont];
 					
-					var fila='<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="number" name="precio_venta[]"value="'+precio_venta+'"></td><td><input type="number" name="descuento[]" value="'+descuento+'"></td><td>'+subtotal[cont]+'</td></tr>';
+					var fila='<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="number" name="cantidad[]" value="'+cantidad+'"></td><td><input type="number" name="precio_venta[]"value="'+precio_venta+'"></td><td><input type="number" name="descuento[]" value="'+descuento+'"></td><td>'+subtotal[cont]+'</td></tr>';
 					cont++;
+
+					console.log(fila);
 					limpiar();
 					$("#total").html("S/. " + total);
 					$("#total_venta").val(total);

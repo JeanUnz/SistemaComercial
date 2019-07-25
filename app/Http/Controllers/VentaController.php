@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Venta;
+use App\DetalleVenta;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\VentaFormRequest;
+use Carbon\Carbon;
 use DB;
 
 class VentaController extends Controller
@@ -15,13 +17,16 @@ class VentaController extends Controller
     public function index(Request $request)
     {
         if($request)
-        {
+        { 
             $query=trim($request->get('searchText'));
-            $venta=DB::table('venta')->where('idventa','LIKE','%'.$query.'%')
+            $ventas=DB::table('venta as v')
+            ->join('persona as p','p.idpersona','=','v.idcliente')
+            ->select('v.idventa','v.fecha_hora','p.nombre','v.tipo_comprobante','v.serie_comprobante','v.num_comprobante','v.impuesto','v.total_venta','v.estado')
+            ->where('idventa','LIKE','%'.$query.'%')
             ->where('estado','=','1')
-            ->orderBy('fechahora','desc')
+            ->orderBy('fecha_hora','desc')
             ->paginate(10);
-            return view('ventas.venta.index',["venta"=>$venta,"searchText"=>$query]);
+            return view('ventas.venta.index',["ventas"=>$ventas,"searchText"=>$query]);
         }
     }
          
@@ -34,25 +39,32 @@ class VentaController extends Controller
             ->where('art.stock','>','0')
             ->groupBy('articulo','art.idarticulo','art.stock')
             ->get();
+
         return view("ventas.venta.create",["personas"=>$personas,"articulos"=>$articulos]);
     }
 
-    public function store(VentaFormRequest $request){
+    public function store(Request $request){
         try{
             DB::beginTransaction();
 
+
             $venta=new Venta;
+          
             $venta->idcliente=$request->get('idcliente');
             $venta->tipo_comprobante=$request->get('tipo_comprobante');
             $venta->serie_comprobante=$request->get('serie_comprobante');
-            $venta->numero_comprobante=$request->get('numero_comprobante');
+            $venta->num_comprobante=$request->get('num_comprobante');
             $venta->total_venta=$request->get('total_venta');
 
             $mytime=Carbon::now('America/Lima');
             $venta->fecha_hora=$mytime->toDateTimeString();
             $venta->impuesto='18';
             $venta->estado='1';
+
+        
             $venta->save();
+
+        //     dd($venta);
 
             $idarticulo=$request->get('idarticulo');
             $cantidad=$request->get('cantidad');
@@ -61,6 +73,7 @@ class VentaController extends Controller
 
             $cont=0;
 
+          
             while ($cont < count($idarticulo)){
             	$detalle=new DetalleVenta();
                 $detalle->idventa=$venta->idventa;
@@ -72,7 +85,7 @@ class VentaController extends Controller
                 $cont=$cont+1;
             }
 
-            DB::conmmit();
+            DB::commit();
 
            }catch(\Exception $e){
                 DB::rollback();
@@ -84,20 +97,20 @@ class VentaController extends Controller
 
     public function show($id)
     {
-        $ventas=DB::table('ventas as v')
+        $venta=DB::table('venta as v')
         ->join('persona as p','v.idcliente','=','p.idpersona')
         ->join('detalle_venta as dv','v.idventa','=','dv.idventa')
-        ->select('v.idventa','v.fecha_hora','p.nombre','v.tipo_comprobante','v.serie_comprobante','v.numero_comprobante','v.impuesto','v.estado','v.total_venta')
-        ->wehere('v.idventa','=',$id)
+        ->select('v.idventa','v.fecha_hora','p.nombre','v.tipo_comprobante','v.serie_comprobante','v.num_comprobante','v.impuesto','v.estado','v.total_venta')
+        ->where('v.idventa','=',$id)
         ->first();
 
-        $detalles=DB::table('detalle_ingreso as detin')
+        $detalles=DB::table('detalle_venta as detin')
         ->join('articulo as art','detin.idarticulo','=','art.idarticulo')
         ->select('art.nombre as articulo','detin.cantidad','detin.descuento','detin.precio_venta')
         ->where('detin.idventa','=',$id)
         ->get();
 
-        return view("ventas.venta.show",["venta"=>$venta,"detalles"=>$detalle]);
+        return view("ventas.venta.show",["venta"=>$venta,"detalles"=>$detalles]);
     }
 
 

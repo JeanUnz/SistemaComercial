@@ -26,8 +26,7 @@ class VentaFormRequest extends FormRequest
         return [
             'tipo_comprobante'=>'required|max:30',
             'num_comprobante'=>'max:5',
-            'impuesto'=>'max:10',
-            'total_venta'=>'max:30',
+              'total_venta'=>'max:30',
         ];
     }
 }
