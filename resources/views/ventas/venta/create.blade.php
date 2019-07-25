@@ -58,11 +58,11 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="form-group">
                                 <label>Articulo</label>
-                                <select name="idarticulo" class="form-control selectpicker" id="idarticulo" data-live-search="true">
-                                    @foreach($articulos as articulo)
-                                    	<option value="">{{$articulo->idarticulo}}</option> 
+								<select name="idarticulo" id="idarticulo" class="form-control selectpicker" data-live-search="true">
+                                    @foreach($articulos as $articulo)
+                                        <option value="{{$articulo->idarticulo}}">{{$articulo->articulo}}</option>
                                     @endforeach
-								</select>
+                                </select>
                             </div>
                         </div>	
 						
