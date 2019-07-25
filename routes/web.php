@@ -55,4 +55,6 @@ Route::resource('compra/ingreso','IngresoController');
 Route::resource('seguridad/usuario','UsuarioController');
 Route::resource('configuracion/inicio','ConfiguracionController');
 
+Route::resource('ventas/venta','VentaController');
+
 
