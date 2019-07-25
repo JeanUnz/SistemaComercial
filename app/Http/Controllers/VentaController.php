@@ -34,7 +34,7 @@ class VentaController extends Controller
             ->where('art.stock','>','0')
             ->groupBy('articulo','art.idarticulo','art.stock')
             ->get();
-        return view("ventas.venta.create",["personas"=>$personas,"articulos"=>$articulos]);
+        return view("ventas.venta.create",["persona"=>$personas,"articulo"=>$articulos]);
     }
 
     public function store(VentaFormRequest $request){
