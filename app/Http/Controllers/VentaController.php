@@ -26,7 +26,7 @@ class VentaController extends Controller
     }
          
     public function create(){
-        $personas=DB::table('persona')->where('tipo_persona','=','Cliente')->get();
+        $personas=DB::table('persona')->where('tipo_persona','=','cliente')->get();
         $articulos=DB::table('articulo as art')
             ->join('detalle_ingreso as di','art.idarticulo','=','di.idarticulo')
             ->select(DB::raw('CONCAT(art.codigo," ",art.nombre) as articulo'), 'art.idarticulo','art.stock', DB::raw('avg(di.precio_venta)as precio_promedio'))
@@ -34,7 +34,7 @@ class VentaController extends Controller
             ->where('art.stock','>','0')
             ->groupBy('articulo','art.idarticulo','art.stock')
             ->get();
-        return view("ventas.venta.create",["persona"=>$personas,"articulo"=>$articulos]);
+        return view("ventas.venta.create",["personas"=>$personas,"articulos"=>$articulos]);
     }
 
     public function store(VentaFormRequest $request){
